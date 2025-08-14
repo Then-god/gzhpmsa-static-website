@@ -28,6 +28,7 @@
             width: 100%;
             margin: 0 auto;
             padding: 0 15px;
+            position: relative; /* 新增：作为信息框的定位参考 */
         }
         
         header {
@@ -60,7 +61,7 @@
             max-width: 1200px;
             height: clamp(300px, 70vh, 850px);
             border-radius: 20px;
-            overflow: hidden;
+            overflow: visible; /* 修改：允许标记点溢出显示 */
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             margin: 0 auto;
         }
@@ -72,6 +73,7 @@
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
+            border-radius: 20px; /* 新增：与容器保持一致的圆角 */
         }
         
         .location {
@@ -117,24 +119,20 @@
         }
         
         .info-box {
-            position: absolute;
-            top: 50%;
-            right: 30px;
-            transform: translateY(-50%);
-            width: clamp(280px, 70vw, 900px);
-            max-width: 90%;
-            background: rgba(0, 0, 0, 0.85);
+            position: fixed; /* 修改：固定定位，不受父容器限制 */
+            z-index: 999; /* 提高层级，确保在最上层 */
+            background: rgba(0, 0, 0, 0.9);
             border-radius: 15px;
-            padding: clamp(15px, 3vw, 25px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: clamp(15px, 4vw, 25px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(10px);
             display: none;
-            z-index: 100;
             transition: all 0.4s ease;
             box-sizing: border-box;
-            max-height: 90vh;
             overflow-y: auto;
+            max-height: 85vh;
+            width: clamp(90%, 500px, 90%);
         }
         
         .info-box.active {
@@ -179,16 +177,14 @@
         }
         
         .info-content {
-            max-height: 70vh;
-            overflow-y: auto;
-            padding-right: 10px;
+            padding-right: 5px; /* 避免滚动条与内容重叠 */
         }
         
         .info-image {
             width: 100%;
             border-radius: 10px;
             margin-bottom: clamp(15px, 3vw, 20px);
-            max-height: 50vh;
+            max-height: 40vh; /* 限制图片最大高度 */
             object-fit: cover;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -261,13 +257,15 @@
         }
         
         /* 响应式调整 */
-        @media (max-width: 900px) {
+        @media (min-width: 481px) {
             .info-box {
-                right: 15px;
+                top: 50%;
+                right: 20px;
+                transform: translateY(-50%);
             }
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .map-container {
                 height: clamp(300px, 50vh, 500px);
             }
@@ -279,10 +277,12 @@
             }
             
             .info-box {
-                left: 50%;
-                right: auto;
                 top: 50%;
+                left: 50%;
                 transform: translate(-50%, -50%);
+                max-height: 80vh;
+                width: 92%;
+                padding: clamp(12px, 3vw, 20px);
             }
             
             .info-box.active {
@@ -339,17 +339,17 @@
             <div class="location" style="top: 56%; left: 85%;" data-id="8">
                 <i class="fas fa-map-pin"></i>
             </div>
+        </div>
+        
+        <!-- 信息框移到地图容器外部 -->
+        <div class="info-box" id="infoBox">
+            <div class="info-header">
+                <h2 class="info-title" id="infoTitle">位置信息</h2>
+                <button class="close-btn" id="closeInfo"><i class="fas fa-times"></i></button>
+            </div>
             
-            <!-- 信息框 -->
-            <div class="info-box" id="infoBox">
-                <div class="info-header">
-                    <h2 class="info-title" id="infoTitle">位置信息</h2>
-                    <button class="close-btn" id="closeInfo"><i class="fas fa-times"></i></button>
-                </div>
-                
-                <div class="info-content" id="infoContent">
-                    <!-- 动态内容将在这里显示 -->
-                </div>
+            <div class="info-content" id="infoContent">
+                <!-- 动态内容将在这里显示 -->
             </div>
         </div>
         
@@ -491,6 +491,10 @@
                     const locationId = this.getAttribute('data-id');
                     showLocationInfo(locationId);
                     highlightLocation(locationId);
+                    
+                    // 同步高亮对应卡片
+                    locationCards.forEach(c => c.classList.remove('active'));
+                    document.querySelector(`.location-card[data-id="${locationId}"]`).classList.add('active');
                 });
             });
             
@@ -527,6 +531,24 @@
                 
                 // 显示信息框
                 infoBox.classList.add('active');
+                
+                // 确保在显示时定位正确
+                adjustInfoBoxPosition();
+            }
+            
+            // 调整信息框位置
+            function adjustInfoBoxPosition() {
+                if (window.innerWidth <= 480) {
+                    infoBox.style.left = '50%';
+                    infoBox.style.top = '50%';
+                    infoBox.style.transform = 'translate(-50%, -50%)';
+                    infoBox.style.right = 'auto';
+                } else {
+                    infoBox.style.top = '50%';
+                    infoBox.style.right = '20px';
+                    infoBox.style.transform = 'translateY(-50%)';
+                    infoBox.style.left = 'auto';
+                }
             }
             
             // 高亮显示位置点
@@ -565,33 +587,30 @@
                 locationCards.forEach(c => c.classList.remove('active'));
             });
             
-            // 点击地图空白区域关闭信息框
-            document.querySelector('.map-container').addEventListener('click', function(e) {
-                if (!e.target.closest('.location') && !e.target.closest('.info-box')) {
+            // 点击页面空白区域关闭信息框
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.location') && !e.target.closest('.info-box') && !e.target.closest('.location-card')) {
                     infoBox.classList.remove('active');
                     locationCards.forEach(c => c.classList.remove('active'));
+                    
+                    // 重置位置点样式
+                    locations.forEach(loc => {
+                        loc.style.background = '#ff4757';
+                        loc.style.boxShadow = '0 0 0 clamp(4px, 1vw, 8px) rgba(255, 71, 87, 0.4)';
+                    });
                 }
             });
             
             // 窗口大小变化时重新定位信息框
             window.addEventListener('resize', function() {
                 if (infoBox.classList.contains('active')) {
-                    // 重新计算位置，确保在小屏幕上居中显示
-                    if (window.innerWidth <= 480) {
-                        infoBox.style.left = '50%';
-                        infoBox.style.top = '50%';
-                        infoBox.style.transform = 'translate(-50%, -50%)';
-                    } else {
-                        infoBox.style.top = '50%';
-                        infoBox.style.right = '30px';
-                        infoBox.style.transform = 'translateY(-50%)';
-                    }
+                    adjustInfoBoxPosition();
                 }
             });
         });
     </script>
 </body>
 </html>
-    
+
 
 
