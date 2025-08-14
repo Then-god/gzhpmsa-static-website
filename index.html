@@ -26,7 +26,8 @@
         .container {
             max-width: 1200px;
             width: 100%;
-            margin: 20px auto;
+            margin: 0 auto;
+            padding: 0 15px;
         }
         
         header {
@@ -36,7 +37,7 @@
         }
         
         h1 {
-            font-size: 2.8rem;
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
             margin-bottom: 10px;
             text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
             background: linear-gradient(45deg, #ff8a00, #e52e71, #22c1c3);
@@ -46,7 +47,7 @@
         }
         
         .subtitle {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2vw, 1.2rem);
             opacity: 0.9;
             max-width: 700px;
             margin: 0 auto;
@@ -57,7 +58,7 @@
             position: relative;
             width: 100%;
             max-width: 1200px;
-            height: 850px;
+            height: clamp(300px, 70vh, 850px);
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
@@ -75,28 +76,28 @@
         
         .location {
             position: absolute;
-            width: 32px;
-            height: 32px;
+            width: clamp(24px, 4vw, 32px);
+            height: clamp(24px, 4vw, 32px);
             background: #ff4757;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 0 0 8px rgba(255, 71, 87, 0.4);
+            box-shadow: 0 0 0 clamp(4px, 1vw, 8px) rgba(255, 71, 87, 0.4);
             display: flex;
             justify-content: center;
             align-items: center;
             transition: all 0.3s ease;
             z-index: 10;
-            transform: translate(-50%, -50%); /* 使标记点中心对准实际位置 */
+            transform: translate(-50%, -50%);
         }
         
         .location:hover {
             transform: translate(-50%, -50%) scale(1.2);
-            box-shadow: 0 0 0 12px rgba(255, 71, 87, 0.5);
+            box-shadow: 0 0 0 clamp(6px, 1.5vw, 12px) rgba(255, 71, 87, 0.5);
         }
         
         .location i {
             color: white;
-            font-size: 16px;
+            font-size: clamp(12px, 2vw, 16px);
         }
         
         .location::after {
@@ -120,10 +121,11 @@
             top: 50%;
             right: 30px;
             transform: translateY(-50%);
-            width: 900px;
+            width: clamp(280px, 70vw, 900px);
+            max-width: 90%;
             background: rgba(0, 0, 0, 0.85);
             border-radius: 15px;
-            padding: 25px;
+            padding: clamp(15px, 3vw, 25px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -131,6 +133,8 @@
             z-index: 100;
             transition: all 0.4s ease;
             box-sizing: border-box;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .info-box.active {
@@ -147,25 +151,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
+            margin-bottom: clamp(15px, 3vw, 20px);
+            padding-bottom: clamp(10px, 2vw, 15px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .info-title {
-            font-size: 1.8rem;
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
             color: #fc2f2f;
         }
         
         .close-btn {
             background: rgba(255, 255, 255, 0.1);
             border: none;
-            width: 36px;
-            height: 36px;
+            width: clamp(30px, 6vw, 36px);
+            height: clamp(30px, 6vw, 36px);
             border-radius: 50%;
             color: white;
             cursor: pointer;
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 3vw, 1.2rem);
             transition: all 0.3s ease;
         }
         
@@ -175,7 +179,7 @@
         }
         
         .info-content {
-            max-height: 500px;
+            max-height: 70vh;
             overflow-y: auto;
             padding-right: 10px;
         }
@@ -183,41 +187,49 @@
         .info-image {
             width: 100%;
             border-radius: 10px;
-            margin-bottom: 20px;
-            max-height: 750px;
+            margin-bottom: clamp(15px, 3vw, 20px);
+            max-height: 50vh;
             object-fit: cover;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .info-content p {
             line-height: 1.7;
-            margin-bottom: 15px;
-            font-size: 1rem;
+            margin-bottom: clamp(10px, 2vw, 15px);
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+        
+        .info-content h3 {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin: clamp(10px, 2vw, 15px) 0;
+            color: #ffd700;
         }
         
         .info-content ul {
-            padding-left: 20px;
-            margin-bottom: 20px;
+            padding-left: clamp(15px, 3vw, 20px);
+            margin-bottom: clamp(15px, 3vw, 20px);
         }
         
         .info-content li {
-            margin-bottom: 10px;
+            margin-bottom: clamp(8px, 1.5vw, 10px);
             line-height: 1.6;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
         
         .location-list {
             display: flex;
             flex-wrap: wrap;
-            gap: 25px;
+            gap: clamp(15px, 3vw, 25px);
             justify-content: center;
             margin-top: 20px;
+            padding: 10px 0;
         }
         
         .location-card {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            padding: 25px;
-            width: 260px;
+            padding: clamp(15px, 3vw, 25px);
+            width: clamp(140px, 30vw, 260px);
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
@@ -236,14 +248,14 @@
         .location-card h4 {
             color: #f10606;
             margin-bottom: 5px;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 2vw, 1rem);
         }
         
         footer {
             text-align: center;
             margin-top: 20px;
             padding: 20px;
-            font-size: 1rem;
+            font-size: clamp(0.8rem, 2vw, 1rem);
             opacity: 0.8;
             width: 100%;
         }
@@ -251,63 +263,35 @@
         /* 响应式调整 */
         @media (max-width: 900px) {
             .info-box {
-                width: 300px;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .location {
-                width: 28px;
-                height: 28px;
+                right: 15px;
             }
         }
         
         @media (max-width: 768px) {
             .map-container {
-                height: 400px;
-            }
-            
-            .info-box {
-                width: 280px;
-                right: 15px;
-            }
-            
-            .location-card {
-                width: 140px;
-                padding: 12px;
-            }
-            
-            .info-image {
-                max-height: 300px;
+                height: clamp(300px, 50vh, 500px);
             }
         }
         
         @media (max-width: 480px) {
             .map-container {
-                height: 300px;
+                height: clamp(250px, 40vh, 400px);
             }
             
             .info-box {
-                width: 90%;
-                left: 5%;
+                left: 50%;
                 right: auto;
-                top: 50px;
-                transform: none;
+                top: 50%;
+                transform: translate(-50%, -50%);
             }
             
-            .location {
-                width: 24px;
-                height: 24px;
+            .info-box.active {
+                animation: fadeInMobile 0.5s ease;
             }
             
-            .location i {
-                font-size: 12px;
-            }
-            
-            .info-image {
-                max-height: 220px;
+            @keyframes fadeInMobile {
+                from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+                to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
             }
         }
     </style>
@@ -323,7 +307,7 @@
             <!-- 地图背景 -->
             <div class="world-map"></div>
             
-            <!-- 位置标记点 - 使用百分比定位，确保在任何尺寸下都能正确显示 -->
+            <!-- 位置标记点 - 使用百分比定位 -->
             <div class="location" style="top: 59%; left: 72%;" data-id="1">
                 <i class="fas fa-map-pin"></i>
             </div>
@@ -550,19 +534,19 @@
                 // 重置所有位置点样式
                 locations.forEach(loc => {
                     loc.style.background = '#ff4757';
-                    loc.style.boxShadow = '0 0 0 8px rgba(255, 71, 87, 0.4)';
+                    loc.style.boxShadow = '0 0 0 clamp(4px, 1vw, 8px) rgba(255, 71, 87, 0.4)';
                 });
                 
                 // 高亮当前位置点
                 const currentLocation = document.querySelector(`.location[data-id="${locationId}"]`);
                 if (currentLocation) {
                     currentLocation.style.background = '#ffd700';
-                    currentLocation.style.boxShadow = '0 0 0 12px rgba(255, 215, 0, 0.5)';
+                    currentLocation.style.boxShadow = '0 0 0 clamp(6px, 1.5vw, 12px) rgba(255, 215, 0, 0.5)';
                     
                     // 3秒后恢复原样式
                     setTimeout(() => {
                         currentLocation.style.background = '#ff4757';
-                        currentLocation.style.boxShadow = '0 0 0 8px rgba(255, 71, 87, 0.4)';
+                        currentLocation.style.boxShadow = '0 0 0 clamp(4px, 1vw, 8px) rgba(255, 71, 87, 0.4)';
                     }, 3000);
                 }
             }
@@ -574,7 +558,7 @@
                 // 重置位置点样式
                 locations.forEach(loc => {
                     loc.style.background = '#ff4757';
-                    loc.style.boxShadow = '0 0 0 8px rgba(255, 71, 87, 0.4)';
+                    loc.style.boxShadow = '0 0 0 clamp(4px, 1vw, 8px) rgba(255, 71, 87, 0.4)';
                 });
                 
                 // 移除卡片高亮
@@ -588,9 +572,26 @@
                     locationCards.forEach(c => c.classList.remove('active'));
                 }
             });
+            
+            // 窗口大小变化时重新定位信息框
+            window.addEventListener('resize', function() {
+                if (infoBox.classList.contains('active')) {
+                    // 重新计算位置，确保在小屏幕上居中显示
+                    if (window.innerWidth <= 480) {
+                        infoBox.style.left = '50%';
+                        infoBox.style.top = '50%';
+                        infoBox.style.transform = 'translate(-50%, -50%)';
+                    } else {
+                        infoBox.style.top = '50%';
+                        infoBox.style.right = '30px';
+                        infoBox.style.transform = 'translateY(-50%)';
+                    }
+                }
+            });
         });
     </script>
 </body>
 </html>
+    
 
 
