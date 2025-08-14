@@ -55,8 +55,8 @@
         
         .map-container {
             position: relative;
-            width: 100%; /* 修改为自适应宽度 */
-            max-width: 1200px; /* 保留最大宽度限制 */
+            width: 100%;
+            max-width: 1200px;
             height: 850px;
             border-radius: 20px;
             overflow: hidden;
@@ -66,11 +66,11 @@
         
         .world-map {
             background: url('https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKBJWiddU9xtD-i7z_2rkTCRujnlcGbAALxGwACSijwVIG8uTlD_ZAVNgQ.jpg');
-            width: 100%; /* 随容器宽度自适应 */
-            height: 100%; /* 随容器高度自适应 */
-            background-size: cover; /* 改为cover保持比例 */
+            width: 100%;
+            height: 100%;
+            background-size: cover;
             background-repeat: no-repeat;
-            background-position: center; /* 图片居中显示 */
+            background-position: center;
         }
         
         .location {
@@ -86,10 +86,11 @@
             align-items: center;
             transition: all 0.3s ease;
             z-index: 10;
+            transform: translate(-50%, -50%); /* 使标记点中心对准实际位置 */
         }
         
         .location:hover {
-            transform: scale(1.2);
+            transform: translate(-50%, -50%) scale(1.2);
             box-shadow: 0 0 0 12px rgba(255, 71, 87, 0.5);
         }
         
@@ -129,7 +130,7 @@
             display: none;
             z-index: 100;
             transition: all 0.4s ease;
-            box-sizing: border-box; /* 新增：确保宽度计算正确 */
+            box-sizing: border-box;
         }
         
         .info-box.active {
@@ -183,7 +184,7 @@
             width: 100%;
             border-radius: 10px;
             margin-bottom: 20px;
-            max-height: 750px; /* 桌面端最大高度 */
+            max-height: 750px;
             object-fit: cover;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
@@ -247,6 +248,7 @@
             width: 100%;
         }
         
+        /* 响应式调整 */
         @media (max-width: 900px) {
             .info-box {
                 width: 300px;
@@ -255,11 +257,16 @@
             h1 {
                 font-size: 2.2rem;
             }
+            
+            .location {
+                width: 28px;
+                height: 28px;
+            }
         }
         
         @media (max-width: 768px) {
             .map-container {
-                height: 400px; /* 优化平板端地图高度 */
+                height: 400px;
             }
             
             .info-box {
@@ -273,13 +280,13 @@
             }
             
             .info-image {
-                max-height: 300px; /* 平板端图片高度限制 */
+                max-height: 300px;
             }
         }
         
         @media (max-width: 480px) {
             .map-container {
-                height: 300px; /* 优化手机端地图高度 */
+                height: 300px;
             }
             
             .info-box {
@@ -291,12 +298,16 @@
             }
             
             .location {
-                width: 28px;
-                height: 28px;
+                width: 24px;
+                height: 24px;
+            }
+            
+            .location i {
+                font-size: 12px;
             }
             
             .info-image {
-                max-height: 220px; /* 手机端图片高度限制 */
+                max-height: 220px;
             }
         }
     </style>
@@ -312,36 +323,36 @@
             <!-- 地图背景 -->
             <div class="world-map"></div>
             
-            <!-- 位置标记点 -->
-            <div class="location" style="top: 500px; left: 865px;" data-id="1">
+            <!-- 位置标记点 - 使用百分比定位，确保在任何尺寸下都能正确显示 -->
+            <div class="location" style="top: 59%; left: 72%;" data-id="1">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 400px; left: 792px;" data-id="2">
+            <div class="location" style="top: 47%; left: 66%;" data-id="2">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 365px; left: 588px;" data-id="3">
+            <div class="location" style="top: 43%; left: 49%;" data-id="3">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 357px; left:444px;" data-id="4">
+            <div class="location" style="top: 42%; left: 37%;" data-id="4">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 382px; left:720px;" data-id="5">
+            <div class="location" style="top: 45%; left: 60%;" data-id="5">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 578px; left: 972px;" data-id="6">
+            <div class="location" style="top: 68%; left: 81%;" data-id="6">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 433px; left: 516px;" data-id="7">
+            <div class="location" style="top: 51%; left: 43%;" data-id="7">
                 <i class="fas fa-map-pin"></i>
             </div>
 
-            <div class="location" style="top: 476px; left: 1020px;" data-id="8">
+            <div class="location" style="top: 56%; left: 85%;" data-id="8">
                 <i class="fas fa-map-pin"></i>
             </div>
             
@@ -581,4 +592,5 @@
     </script>
 </body>
 </html>
+
 
