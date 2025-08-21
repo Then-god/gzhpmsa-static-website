@@ -26,9 +26,7 @@
         .container {
             max-width: 1200px;
             width: 100%;
-            margin: 0 auto;
-            padding: 0 15px;
-            position: relative; /* 新增：作为信息框的定位参考 */
+            margin: 20px auto;
         }
         
         header {
@@ -38,7 +36,7 @@
         }
         
         h1 {
-            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-size: 2.8rem;
             margin-bottom: 10px;
             text-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
             background: linear-gradient(45deg, #ff8a00, #e52e71, #22c1c3);
@@ -48,7 +46,7 @@
         }
         
         .subtitle {
-            font-size: clamp(1rem, 2vw, 1.2rem);
+            font-size: 1.2rem;
             opacity: 0.9;
             max-width: 700px;
             margin: 0 auto;
@@ -57,49 +55,46 @@
         
         .map-container {
             position: relative;
-            width: 100%;
-            max-width: 1200px;
-            height: clamp(300px, 70vh, 850px);
+            width: 1200px;
+            height: 850px;
             border-radius: 20px;
-            overflow: visible; /* 修改：允许标记点溢出显示 */
+            overflow: hidden;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             margin: 0 auto;
         }
         
         .world-map {
             background: url('https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKBJWiddU9xtD-i7z_2rkTCRujnlcGbAALxGwACSijwVIG8uTlD_ZAVNgQ.jpg');
-            width: 100%;
-            height: 100%;
-            background-size: cover;
+            width: 1200px;
+            height: 850px;
+            background-size: 100% 100%;
             background-repeat: no-repeat;
-            background-position: center;
-            border-radius: 20px; /* 新增：与容器保持一致的圆角 */
+            background-position: 0 0;
         }
         
         .location {
             position: absolute;
-            width: clamp(24px, 4vw, 32px);
-            height: clamp(24px, 4vw, 32px);
+            width: 32px;
+            height: 32px;
             background: #ff4757;
             border-radius: 50%;
             cursor: pointer;
-            box-shadow: 0 0 0 clamp(4px, 1vw, 8px) rgba(255, 71, 87, 0.4);
+            box-shadow: 0 0 0 8px rgba(255, 71, 87, 0.4);
             display: flex;
             justify-content: center;
             align-items: center;
             transition: all 0.3s ease;
             z-index: 10;
-            transform: translate(-50%, -50%);
         }
         
         .location:hover {
-            transform: translate(-50%, -50%) scale(1.2);
-            box-shadow: 0 0 0 clamp(6px, 1.5vw, 12px) rgba(255, 71, 87, 0.5);
+            transform: scale(1.2);
+            box-shadow: 0 0 0 12px rgba(255, 71, 87, 0.5);
         }
         
         .location i {
             color: white;
-            font-size: clamp(12px, 2vw, 16px);
+            font-size: 16px;
         }
         
         .location::after {
@@ -119,20 +114,20 @@
         }
         
         .info-box {
-            position: fixed; /* 修改：固定定位，不受父容器限制 */
-            z-index: 999; /* 提高层级，确保在最上层 */
-            background: rgba(0, 0, 0, 0.9);
+            position: absolute;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            width: 900px;
+            background: rgba(0, 0, 0, 0.85);
             border-radius: 15px;
-            padding: clamp(15px, 4vw, 25px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             display: none;
+            z-index: 100;
             transition: all 0.4s ease;
-            box-sizing: border-box;
-            overflow-y: auto;
-            max-height: 85vh;
-            width: clamp(90%, 500px, 90%);
         }
         
         .info-box.active {
@@ -149,25 +144,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: clamp(15px, 3vw, 20px);
-            padding-bottom: clamp(10px, 2vw, 15px);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .info-title {
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            font-size: 1.8rem;
             color: #fc2f2f;
         }
         
         .close-btn {
             background: rgba(255, 255, 255, 0.1);
             border: none;
-            width: clamp(30px, 6vw, 36px);
-            height: clamp(30px, 6vw, 36px);
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             color: white;
             cursor: pointer;
-            font-size: clamp(1rem, 3vw, 1.2rem);
+            font-size: 1.2rem;
             transition: all 0.3s ease;
         }
         
@@ -177,55 +172,49 @@
         }
         
         .info-content {
-            padding-right: 5px; /* 避免滚动条与内容重叠 */
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
         }
         
         .info-image {
             width: 100%;
             border-radius: 10px;
-            margin-bottom: clamp(15px, 3vw, 20px);
-            max-height: 40vh; /* 限制图片最大高度 */
+            margin-bottom: 20px;
+            max-height: 750px;
             object-fit: cover;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
         .info-content p {
             line-height: 1.7;
-            margin-bottom: clamp(10px, 2vw, 15px);
-            font-size: clamp(0.9rem, 2vw, 1rem);
-        }
-        
-        .info-content h3 {
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            margin: clamp(10px, 2vw, 15px) 0;
-            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1rem;
         }
         
         .info-content ul {
-            padding-left: clamp(15px, 3vw, 20px);
-            margin-bottom: clamp(15px, 3vw, 20px);
+            padding-left: 20px;
+            margin-bottom: 20px;
         }
         
         .info-content li {
-            margin-bottom: clamp(8px, 1.5vw, 10px);
+            margin-bottom: 10px;
             line-height: 1.6;
-            font-size: clamp(0.9rem, 2vw, 1rem);
         }
         
         .location-list {
             display: flex;
             flex-wrap: wrap;
-            gap: clamp(15px, 3vw, 25px);
+            gap: 25px;
             justify-content: center;
             margin-top: 20px;
-            padding: 10px 0;
         }
         
         .location-card {
             background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            padding: clamp(15px, 3vw, 25px);
-            width: clamp(140px, 30vw, 260px);
+            padding: 25px;
+            width: 260px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: center;
@@ -244,54 +233,60 @@
         .location-card h4 {
             color: #f10606;
             margin-bottom: 5px;
-            font-size: clamp(0.9rem, 2vw, 1rem);
+            font-size: 1rem;
         }
         
         footer {
             text-align: center;
             margin-top: 20px;
             padding: 20px;
-            font-size: clamp(0.8rem, 2vw, 1rem);
+            font-size: 1rem;
             opacity: 0.8;
             width: 100%;
         }
         
-        /* 响应式调整 */
-        @media (min-width: 481px) {
+        @media (max-width: 900px) {
             .info-box {
-                top: 50%;
-                right: 20px;
-                transform: translateY(-50%);
+                width: 300px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
             }
         }
         
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
             .map-container {
-                height: clamp(300px, 50vh, 500px);
+                height: 300px;
+            }
+            
+            .info-box {
+                width: 280px;
+                right: 15px;
+            }
+            
+            .location-card {
+                width: 140px;
+                padding: 12px;
             }
         }
         
         @media (max-width: 480px) {
             .map-container {
-                height: clamp(250px, 40vh, 400px);
+                height: 500px;
             }
             
             .info-box {
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                max-height: 80vh;
-                width: 92%;
-                padding: clamp(12px, 3vw, 20px);
+                width: 90%;
+                left: 5%;
+                right: auto;
+                top: 50px;
+                transform: none;
             }
             
-            .info-box.active {
-                animation: fadeInMobile 0.5s ease;
-            }
-            
-            @keyframes fadeInMobile {
-                from { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
-                to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            .location {
+                width: 28px;
+                height: 28px;
             }
         }
     </style>
@@ -307,49 +302,49 @@
             <!-- 地图背景 -->
             <div class="world-map"></div>
             
-            <!-- 位置标记点 - 使用百分比定位 -->
-            <div class="location" style="top: 59%; left: 72%;" data-id="1">
+            <!-- 位置标记点 -->
+            <div class="location" style="top: 500px; left: 865px;" data-id="1">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 47%; left: 66%;" data-id="2">
+            <div class="location" style="top: 400px; left: 792px;" data-id="2">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 43%; left: 49%;" data-id="3">
+            <div class="location" style="top: 365px; left: 588px;" data-id="3">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 42%; left: 37%;" data-id="4">
+            <div class="location" style="top: 357px; left:444px;" data-id="4">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 45%; left: 60%;" data-id="5">
+            <div class="location" style="top: 382px; left:720px;" data-id="5">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 68%; left: 81%;" data-id="6">
+            <div class="location" style="top: 578px; left: 972px;" data-id="6">
                 <i class="fas fa-map-pin"></i>
             </div>
             
-            <div class="location" style="top: 51%; left: 43%;" data-id="7">
+            <div class="location" style="top: 433px; left: 516px;" data-id="7">
                 <i class="fas fa-map-pin"></i>
             </div>
 
-            <div class="location" style="top: 56%; left: 85%;" data-id="8">
+            <div class="location" style="top: 476px; left: 1020px;" data-id="8">
                 <i class="fas fa-map-pin"></i>
             </div>
-        </div>
-        
-        <!-- 信息框移到地图容器外部 -->
-        <div class="info-box" id="infoBox">
-            <div class="info-header">
-                <h2 class="info-title" id="infoTitle">位置信息</h2>
-                <button class="close-btn" id="closeInfo"><i class="fas fa-times"></i></button>
-            </div>
-            
-            <div class="info-content" id="infoContent">
-                <!-- 动态内容将在这里显示 -->
+
+            <!-- 信息框 -->
+            <div class="info-box" id="infoBox">
+                <div class="info-header">
+                    <h2 class="info-title" id="infoTitle">位置信息</h2>
+                    <button class="close-btn" id="closeInfo"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <div class="info-content" id="infoContent">
+                    <!-- 动态内容将在这里显示 -->
+                </div>
             </div>
         </div>
         
@@ -404,6 +399,7 @@
                     title: "风险点2",
                     icon: "tree",
                     image: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKBS2idfFxS0Mcy_VoM4c5dN3OiuPEPAAI1HAACSijwVCQiBHdltSvRNgQ.jpg",
+                    video:"F:/工作/1baec5e221ab8f23bed943f1ac393e95.mp4",
                     description: "广州港东河道5号、6灯浮与大二石灯浮(孤立危险物标)之间水域为“大二石”礁盘(见上图，大二石礁盘)，海图水深-3.5 米至-5.8米，底质为石质",
                     details: [
                         "1、船舶进出广州港东河道1号至6号灯浮航段时，应当谨慎驾驶加强了望，注意避让，加强与周围船舶的联系。<br>",
@@ -424,7 +420,10 @@
                 4: {
                     title: "风险点4",
                     icon: "tree",
-                    image: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAJ9bGicMP-cHL4lcHyUAAHAlCCM-uDPcgACGxkAAkoo4FSQTFUIQSFL5TYE.png",
+                    image: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKXmWikIdJ_cSopiYov-NuEsMTHqqIAA10aAAIOQChVzLd7fI9QnUg2BA.jpg",
+                    image2:"https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKXlmikIdFbH_0EqJeJUlPriwPuPxt5AAJaGgACDkAoVRT7oaXWpzpINgQ.jpg",
+                    image3:"https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKXmGikIdGOIe4PB09zJ3xaRUefLPSTAAJcGgACDkAoVbWlj-jGnnSCNgQ.jpg",
+                    video:"F:/工作/c7d60e487cf27ace865e9f0633c89be2.mp4",
                     description: "鱼珠码头位于黄埔区东南端黄埔水道北侧，鱼珠－长洲车渡跨越黄埔水道连鱼珠码头至长洲码头，是黄埔通往长洲岛的重要水上通道，渡船有“穗车渡01”等。",
                     details: [
                         "1、当能见度不满1000米时，渡船禁止航行；正常目视能见度可清晰看到对岸渡口码头或岸线时，渡船不受上述能见度距离限制，在确保安全前提下可以开航。<br>",
@@ -435,7 +434,7 @@
                 5: {
                     title: "风险点5",
                     icon: "tree",
-                    image: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAJ9bWicMQaGOKvBT9yANpUrXcCUxkk1AAIcGQACSijgVEAm4Jj-jPM1NgQ.png",
+                    image: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKXl2ikIdG4-TfMGTIs1D-5zBihu-L8AAJbGgACDkAoVfryxSbnDKR0NgQ.jpg",
                     description: "乌涌联围渡口位于黄埔港前路的乌涌水闸旁，乌涌联围－大吉沙渡线跨越黄埔水道连接大吉沙岛，渡口共有客渡船两艘“粤广州渡0080”、“粤广州渡0099”。",
                     details: [
                         "1、当能见度不满1000米时，渡船禁止航行；正常目视能见度可清晰看到对岸渡口码头或岸线时，渡船不受上述能见度距离限制，在确保安全前提下可以开航。<br>",
@@ -491,10 +490,6 @@
                     const locationId = this.getAttribute('data-id');
                     showLocationInfo(locationId);
                     highlightLocation(locationId);
-                    
-                    // 同步高亮对应卡片
-                    locationCards.forEach(c => c.classList.remove('active'));
-                    document.querySelector(`.location-card[data-id="${locationId}"]`).classList.add('active');
                 });
             });
             
@@ -518,10 +513,19 @@
                 // 更新信息框内容
                 infoTitle.innerHTML = `<i class="fas fa-${data.icon}"></i> ${data.title}`;
                 infoContent.innerHTML = `
-                    <div class="image-container">
+                    <div class="image-container"> <!-- 新增容器包裹两张图片 -->
                         <img src="${data.image}" alt="${data.title}" class="info-image">
                         ${data.image2 ? `<img src="${data.image2}" alt="${data.title}" class="info-image">` : ''}
                         </div>
+                        <!-- 新增视频播放区域：如果有视频地址，则显示视频 -->
+                        ${data.video ? `
+                        <div class="video-container" style="margin: 15px 0;">
+                        <video controls width="100%" style="max-width: 600px;">
+                        <source src="${data.video}" type="video/mp4">
+                        您的浏览器不支持视频播放
+                        </video>
+                    </div>
+                  ` : ''}
                         <p>${data.description}</p >
                         <h3><i class="fas fa-info-circle"></i> 温馨提醒：</h3>
                         <ul>
@@ -531,24 +535,6 @@
                 
                 // 显示信息框
                 infoBox.classList.add('active');
-                
-                // 确保在显示时定位正确
-                adjustInfoBoxPosition();
-            }
-            
-            // 调整信息框位置
-            function adjustInfoBoxPosition() {
-                if (window.innerWidth <= 480) {
-                    infoBox.style.left = '50%';
-                    infoBox.style.top = '50%';
-                    infoBox.style.transform = 'translate(-50%, -50%)';
-                    infoBox.style.right = 'auto';
-                } else {
-                    infoBox.style.top = '50%';
-                    infoBox.style.right = '20px';
-                    infoBox.style.transform = 'translateY(-50%)';
-                    infoBox.style.left = 'auto';
-                }
             }
             
             // 高亮显示位置点
@@ -556,19 +542,19 @@
                 // 重置所有位置点样式
                 locations.forEach(loc => {
                     loc.style.background = '#ff4757';
-                    loc.style.boxShadow = '0 0 0 clamp(4px, 1vw, 8px) rgba(255, 71, 87, 0.4)';
+                    loc.style.boxShadow = '0 0 0 8px rgba(255, 71, 87, 0.4)';
                 });
                 
                 // 高亮当前位置点
                 const currentLocation = document.querySelector(`.location[data-id="${locationId}"]`);
                 if (currentLocation) {
                     currentLocation.style.background = '#ffd700';
-                    currentLocation.style.boxShadow = '0 0 0 clamp(6px, 1.5vw, 12px) rgba(255, 215, 0, 0.5)';
+                    currentLocation.style.boxShadow = '0 0 0 12px rgba(255, 215, 0, 0.5)';
                     
                     // 3秒后恢复原样式
                     setTimeout(() => {
                         currentLocation.style.background = '#ff4757';
-                        currentLocation.style.boxShadow = '0 0 0 clamp(4px, 1vw, 8px) rgba(255, 71, 87, 0.4)';
+                        currentLocation.style.boxShadow = '0 0 0 8px rgba(255, 71, 87, 0.4)';
                     }, 3000);
                 }
             }
@@ -580,37 +566,23 @@
                 // 重置位置点样式
                 locations.forEach(loc => {
                     loc.style.background = '#ff4757';
-                    loc.style.boxShadow = '0 0 0 clamp(4px, 1vw, 8px) rgba(255, 71, 87, 0.4)';
+                    loc.style.boxShadow = '0 0 0 8px rgba(255, 71, 87, 0.4)';
                 });
                 
                 // 移除卡片高亮
                 locationCards.forEach(c => c.classList.remove('active'));
             });
             
-            // 点击页面空白区域关闭信息框
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.location') && !e.target.closest('.info-box') && !e.target.closest('.location-card')) {
+            // 点击地图空白区域关闭信息框
+            document.querySelector('.map-container').addEventListener('click', function(e) {
+                if (!e.target.closest('.location') && !e.target.closest('.info-box')) {
                     infoBox.classList.remove('active');
                     locationCards.forEach(c => c.classList.remove('active'));
-                    
-                    // 重置位置点样式
-                    locations.forEach(loc => {
-                        loc.style.background = '#ff4757';
-                        loc.style.boxShadow = '0 0 0 clamp(4px, 1vw, 8px) rgba(255, 71, 87, 0.4)';
-                    });
-                }
-            });
-            
-            // 窗口大小变化时重新定位信息框
-            window.addEventListener('resize', function() {
-                if (infoBox.classList.contains('active')) {
-                    adjustInfoBoxPosition();
                 }
             });
         });
     </script>
 </body>
 </html>
-
 
 
