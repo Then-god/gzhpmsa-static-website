@@ -23,6 +23,7 @@
             padding: 20px;
         }
         
+        
         .container {
             max-width: 1200px;
             width: 100%;
@@ -175,6 +176,15 @@
             max-height: 500px;
             overflow-y: auto;
             padding-right: 10px;
+            padding-bottom: 20px;
+        }
+        
+        .info-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .info-content::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
         }
         
         .info-image {
@@ -245,6 +255,133 @@
             width: 100%;
         }
         
+        /* 视频容器样式 */
+        .video-container {
+            margin: 15px 0;
+            width: 100%;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+        
+        .video-container video {
+            width: 100% !important;
+            max-width: 800px !important;
+            height: auto !important;
+            min-height: 300px;
+            border-radius: 4px;
+            object-fit: contain;
+        }
+        
+        .video-status {
+            color: #4dd0e1;
+            font-size: 0.9rem;
+            margin: 8px 0;
+            display: block;
+        }
+        
+        .video-error {
+            color: #ff4757;
+            font-size: 0.9rem;
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255, 71, 87, 0.1);
+            border-radius: 4px;
+        }
+        
+        .video-path {
+            font-size: 0.8rem;
+            color: #bbb;
+            word-break: break-all;
+            margin-top: 10px;
+        }
+        
+        .video-container p {
+            margin-bottom: 8px !important;
+            font-size: 0.95rem;
+            color: #f0f0f0;
+        }
+        
+        /* 视频加载进度条 */
+        .video-progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        
+        .video-progress {
+            height: 100%;
+            background-color: #4dd0e1;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        /* 网络质量指示器 */
+        .network-quality {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 10px;
+        }
+        
+        .quality-poor {
+            background-color: rgba(255, 71, 87, 0.2);
+            color: #ff4757;
+        }
+        
+        .quality-medium {
+            background-color: rgba(255, 183, 77, 0.2);
+            color: #ffb74d;
+        }
+        
+        .quality-good {
+            background-color: rgba(77, 208, 225, 0.2);
+            color: #4dd0e1;
+        }
+        
+        /* 清晰度选择器样式 */
+        .video-quality-selector {
+            margin-bottom: 8px;
+        }
+        
+        .video-quality-selector select {
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 3px 5px;
+            border-radius: 4px;
+        }
+        
+        /* 视频源信息样式 */
+        .video-source-info {
+            font-size: 0.8rem;
+            color: #bbb;
+            margin-top: 8px;
+        }
+        
+        .video-source-info button {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #bbb;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        
+        .video-source-info button:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
         @media (max-width: 900px) {
             .info-box {
                 width: 300px;
@@ -252,6 +389,14 @@
             
             h1 {
                 font-size: 2.2rem;
+            }
+            
+            .video-container {
+                max-width: 280px;
+            }
+            
+            .video-container video {
+                min-height: 200px;
             }
         }
         
@@ -382,7 +527,13 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 位置数据
+            // 生成带时间戳的视频URL，避免缓存
+            function getVideoUrl(baseUrl) {
+                return baseUrl + "?timestamp=" + new Date().getTime();
+            }
+            
+            // 位置数据 - 已适配阿里云视频存储
+            // 请将下方URL替换为你在阿里云OSS中的实际视频地址
             const locationData = {
                 1: {
                     title: "风险点1",
@@ -399,7 +550,34 @@
                     title: "风险点2",
                     icon: "tree",
                     image: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKBS2idfFxS0Mcy_VoM4c5dN3OiuPEPAAI1HAACSijwVCQiBHdltSvRNgQ.jpg",
-                    video:"F:/工作/1baec5e221ab8f23bed943f1ac393e95.mp4",
+                    videos: {
+                        sources: [
+                            {
+                                name: "阿里云主源",
+                                url: "https://marutime-videos.oss-cn-shenzhen.aliyuncs.com/%E8%8F%A0%E8%90%9D%E5%BA%99%E6%B0%B4%E9%81%931.mp4"
+                                // 替换为你的阿里云视频URL
+                            },
+                            {
+                                name: "阿里云备用源",
+                                url: "https://marutime-videos.oss-cn-shenzhen.aliyuncs.com/%E9%A3%8E%E9%99%A9%E7%82%B9%E5%9B%9B.mp4"
+                                // 替换为你的阿里云备用视频URL
+                            }
+                        ],
+                        qualities: [
+                            {
+                                name: "高清(1080p)",
+                                suffix: "_1080p"
+                            },
+                            {
+                                name: "标清(720p)",
+                                suffix: "_720p"
+                            },
+                            {
+                                name: "流畅(480p)",
+                                suffix: "_480p"
+                            }
+                        ]
+                    },
                     description: "广州港东河道5号、6灯浮与大二石灯浮(孤立危险物标)之间水域为“大二石”礁盘(见上图，大二石礁盘)，海图水深-3.5 米至-5.8米，底质为石质",
                     details: [
                         "1、船舶进出广州港东河道1号至6号灯浮航段时，应当谨慎驾驶加强了望，注意避让，加强与周围船舶的联系。<br>",
@@ -423,7 +601,34 @@
                     image: "https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKXmWikIdJ_cSopiYov-NuEsMTHqqIAA10aAAIOQChVzLd7fI9QnUg2BA.jpg",
                     image2:"https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKXlmikIdFbH_0EqJeJUlPriwPuPxt5AAJaGgACDkAoVRT7oaXWpzpINgQ.jpg",
                     image3:"https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAKXmGikIdGOIe4PB09zJ3xaRUefLPSTAAJcGgACDkAoVbWlj-jGnnSCNgQ.jpg",
-                    video:"https://raw.github.com/Then-god/gzhpmsa-static-website/blob/main/%E6%96%87%E5%86%B2%E8%88%B9%E5%8E%82%E9%99%84%E8%BF%91.mp4",
+                    videos: {
+                        sources: [
+                            {
+                                name: "阿里云主源",
+                                url: "https://marutime-videos.oss-cn-shenzhen.aliyuncs.com/%E9%A3%8E%E9%99%A9%E7%82%B9%E5%9B%9B.mp4"
+                                // 替换为你的阿里云视频URL
+                            },
+                            {
+                                name: "阿里云备用源",
+                                url: "https://marutime-videos.oss-cn-shenzhen.aliyuncs.com/%E6%96%87%E5%86%B2%E8%88%B9%E5%8E%82%E9%99%84%E8%BF%91.mp4"
+                                // 替换为你的阿里云备用视频URL
+                            }
+                        ],
+                        qualities: [
+                            {
+                                name: "高清(1080p)",
+                                suffix: "_1080p"
+                            },
+                            {
+                                name: "标清(720p)",
+                                suffix: "_720p"
+                            },
+                            {
+                                name: "流畅(480p)",
+                                suffix: "_480p"
+                            }
+                        ]
+                    },
                     description: "鱼珠码头位于黄埔区东南端黄埔水道北侧，鱼珠－长洲车渡跨越黄埔水道连鱼珠码头至长洲码头，是黄埔通往长洲岛的重要水上通道，渡船有“穗车渡01”等。",
                     details: [
                         "1、当能见度不满1000米时，渡船禁止航行；正常目视能见度可清晰看到对岸渡口码头或岸线时，渡船不受上述能见度距离限制，在确保安全前提下可以开航。<br>",
@@ -475,6 +680,143 @@
                 }
             };
 
+            // 网络质量检测
+            let networkQuality = 'unknown';
+            function checkNetworkQuality() {
+                if (navigator.connection) {
+                    const downlink = navigator.connection.downlink; // Mbps
+                    if (downlink < 1) {
+                        networkQuality = 'poor';
+                    } else if (downlink < 5) {
+                        networkQuality = 'medium';
+                    } else {
+                        networkQuality = 'good';
+                    }
+                }
+                return networkQuality;
+            }
+
+            // 多源视频加载函数
+            function loadVideoWithFallbacks(videoElement, sources, currentSourceIndex = 0) {
+                if (currentSourceIndex >= sources.length) {
+                    return Promise.reject("所有视频源均加载失败");
+                }
+                
+                const statusElement = document.getElementById('videoStatus');
+                const progressBar = document.getElementById('videoProgress');
+                
+                if (statusElement) {
+                    statusElement.textContent = `正在从${sources[currentSourceIndex].name}加载视频...`;
+                }
+                
+                return new Promise((resolve, reject) => {
+                    // 清除之前的事件监听器
+                    const oldOnError = videoElement.onerror;
+                    const oldOnCanPlay = videoElement.oncanplay;
+                    
+                    // 生成带时间戳的URL
+                    const timestampUrl = getVideoUrl(sources[currentSourceIndex].url);
+                    
+                    videoElement.src = timestampUrl;
+                    videoElement.load();
+                    
+                    // 监控进度
+                    const progressHandler = () => {
+                        if (videoElement.buffered.length > 0) {
+                            const bufferedEnd = videoElement.buffered.end(videoElement.buffered.length - 1);
+                            const duration = videoElement.duration;
+                            if (duration > 0 && progressBar) {
+                                const loadedPercent = (bufferedEnd / duration) * 100;
+                                progressBar.style.width = loadedPercent + '%';
+                            }
+                        }
+                    };
+                    
+                    videoElement.addEventListener('progress', progressHandler);
+                    
+                    // 加载成功
+                    videoElement.oncanplay = () => {
+                        videoElement.removeEventListener('progress', progressHandler);
+                        videoElement.oncanplay = oldOnCanPlay;
+                        resolve(currentSourceIndex);
+                    };
+                    
+                    // 加载失败，尝试下一个源
+                    videoElement.onerror = (e) => {
+                        videoElement.removeEventListener('progress', progressHandler);
+                        videoElement.onerror = oldOnError;
+                        
+                        console.error(`视频源${currentSourceIndex}加载失败，尝试下一个...`, e);
+                        if (statusElement) {
+                            statusElement.textContent = `${sources[currentSourceIndex].name}加载失败，尝试${sources[currentSourceIndex + 1]?.name || '备用方案'}...`;
+                        }
+                        
+                        // 递归尝试下一个源
+                        loadVideoWithFallbacks(videoElement, sources, currentSourceIndex + 1)
+                            .then(resolve)
+                            .catch(reject);
+                    };
+                    
+                    // 超时处理
+                    setTimeout(() => {
+                        if (videoElement.readyState < 2) {
+                            console.log(`视频源${currentSourceIndex}加载超时`);
+                            videoElement.onerror({ type: 'timeout' });
+                        }
+                    }, 15000);
+                });
+            }
+
+            // 添加重试按钮
+            function addRetryButton(video, baseUrl) {
+                if (!document.getElementById('retryVideoBtn')) {
+                    const retryBtn = document.createElement('button');
+                    retryBtn.id = 'retryVideoBtn';
+                    retryBtn.style.background = 'rgba(255,255,255,0.1)';
+                    retryBtn.style.border = 'none';
+                    retryBtn.style.color = 'white';
+                    retryBtn.style.padding = '5px 10px';
+                    retryBtn.style.borderRadius = '4px';
+                    retryBtn.style.marginTop = '8px';
+                    retryBtn.style.cursor = 'pointer';
+                    retryBtn.innerHTML = '<i class="fas fa-redo"></i> 重试加载';
+                    
+                    retryBtn.addEventListener('click', () => {
+                        // 重置进度条
+                        const progressBar = document.getElementById('videoProgress');
+                        if (progressBar) progressBar.style.width = '0%';
+                        
+                        // 生成新的时间戳URL重试
+                        video.src = getVideoUrl(baseUrl);
+                        const statusElement = document.getElementById('videoStatus');
+                        if (statusElement) {
+                            statusElement.textContent = '重新加载中...';
+                            statusElement.className = 'video-status';
+                        }
+                        video.load();
+                        
+                        // 移除重试按钮
+                        retryBtn.remove();
+                    });
+                    
+                    const statusElement = document.getElementById('videoStatus');
+                    if (statusElement) {
+                        statusElement.parentNode.appendChild(retryBtn);
+                    }
+                }
+            }
+
+            // 视频错误代码解释
+            function getVideoErrorText(code) {
+                const errors = {
+                    1: '用户终止了加载',
+                    2: '网络错误（可能被拦截或连接失败）',
+                    3: '解码错误（视频编码不是H.264+AAC或文件损坏）',
+                    4: '视频格式不支持（必须是MP4格式）'
+                };
+                return errors[code] || `未知错误（代码：${code}）`;
+            }
+
             // 获取DOM元素
             const locations = document.querySelectorAll('.location');
             const locationCards = document.querySelectorAll('.location-card');
@@ -510,31 +852,151 @@
             function showLocationInfo(locationId) {
                 const data = locationData[locationId];
                 
+                // 检测网络质量
+                checkNetworkQuality();
+                
                 // 更新信息框内容
                 infoTitle.innerHTML = `<i class="fas fa-${data.icon}"></i> ${data.title}`;
                 infoContent.innerHTML = `
-                    <div class="image-container"> <!-- 新增容器包裹两张图片 -->
+                    <div class="image-container">
                         <img src="${data.image}" alt="${data.title}" class="info-image">
                         ${data.image2 ? `<img src="${data.image2}" alt="${data.title}" class="info-image">` : ''}
-                        </div>
-                        <!-- 新增视频播放区域：如果有视频地址，则显示视频 -->
-                        ${data.video ? `
-                        <div class="video-container" style="margin: 15px 0;">
-                        <video controls width="100%" style="max-width: 600px;">
-                        <source src="${data.video}" type="video/mp4">
-                        您的浏览器不支持视频播放
-                        </video>
+                        ${data.image3 ? `<img src="${data.image3}" alt="${data.title}" class="info-image">` : ''}
                     </div>
-                  ` : ''}
-                        <p>${data.description}</p >
-                        <h3><i class="fas fa-info-circle"></i> 温馨提醒：</h3>
-                        <ul>
-                            ${data.details.map(detail => `<li>${detail}</li>`).join('')}
-                        </ul>
+                    
+                    ${data.videos ? `
+                    <div class="video-container">
+                        <p>相关视频：
+                            <span class="network-quality quality-${networkQuality}">
+                                ${networkQuality === 'poor' ? '网络质量差' : 
+                                  networkQuality === 'medium' ? '网络质量中等' : '网络质量良好'}
+                            </span>
+                        </p>
+                        
+                        ${data.videos.qualities && data.videos.qualities.length > 1 ? `
+                        <div class="video-quality-selector">
+                            <label>清晰度：</label>
+                            <select id="qualitySelector">
+                                ${data.videos.qualities.map((q, i) => `
+                                    <option value="${i}">${q.name}</option>
+                                `).join('')}
+                            </select>
+                        </div>
+                        ` : ''}
+                        
+                        <span class="video-status" id="videoStatus">准备加载视频...</span>
+                        <div class="video-progress-container">
+                            <div class="video-progress" id="videoProgress"></div>
+                        </div>
+                        <video controls crossorigin="anonymous" preload="metadata" id="locationVideo">
+                            您的浏览器不支持HTML5视频播放
+                        </video>
+                        
+                        ${data.videos.sources && data.videos.sources.length > 1 ? `
+                        <div class="video-source-info">
+                            当前来源：<span id="currentSourceName">${data.videos.sources[0].name}</span>
+                            <button id="switchSourceBtn">切换来源</button>
+                        </div>
+                        ` : ''}
+                    </div>
+                    ` : ''}
+                    
+                    <p>${data.description}</p>
+                    <h3><i class="fas fa-info-circle"></i> 温馨提醒：</h3>
+                    <ul>
+                        ${data.details.map(detail => `<li>${detail}</li>`).join('')}
+                    </ul>
                 `;
                 
                 // 显示信息框
                 infoBox.classList.add('active');
+                
+                // 初始化视频控制
+                if (data.videos) {
+                    const video = document.getElementById('locationVideo');
+                    const qualitySelector = document.getElementById('qualitySelector');
+                    const switchSourceBtn = document.getElementById('switchSourceBtn');
+                    const currentSourceName = document.getElementById('currentSourceName');
+                    let currentSourceIndex = 0;
+                    
+                    // 初始加载视频
+                    loadVideoWithFallbacks(video, data.videos.sources)
+                        .then(index => {
+                            currentSourceIndex = index;
+                            if (currentSourceName) {
+                                currentSourceName.textContent = data.videos.sources[index].name;
+                            }
+                            if (document.getElementById('videoStatus')) {
+                                document.getElementById('videoStatus').textContent = '视频可以播放了';
+                            }
+                        })
+                        .catch(err => {
+                            if (document.getElementById('videoStatus')) {
+                                document.getElementById('videoStatus').innerHTML = `<strong>错误：</strong>${err}`;
+                                document.getElementById('videoStatus').className = 'video-error';
+                                addRetryButton(video, data.videos.sources[0].url.split('?')[0]);
+                            }
+                        });
+                    
+                    // 清晰度切换
+                    if (qualitySelector && data.videos.qualities) {
+                        qualitySelector.addEventListener('change', function() {
+                            const selectedQuality = data.videos.qualities[this.value];
+                            // 更新所有源的URL以匹配所选清晰度
+                            const updatedSources = data.videos.sources.map(source => {
+                                const baseUrl = source.url.replace(/(_\d+p)?\.mp4$/, '');
+                                return {
+                                    ...source,
+                                    url: `${baseUrl}${selectedQuality.suffix}.mp4`
+                                };
+                            });
+                            
+                            if (document.getElementById('videoStatus')) {
+                                document.getElementById('videoStatus').textContent = `正在切换到${selectedQuality.name}...`;
+                            }
+                            if (document.getElementById('videoProgress')) {
+                                document.getElementById('videoProgress').style.width = '0%';
+                            }
+                            
+                            // 重新加载视频
+                            loadVideoWithFallbacks(video, updatedSources)
+                                .then(index => {
+                                    currentSourceIndex = index;
+                                    if (currentSourceName) {
+                                        currentSourceName.textContent = updatedSources[index].name;
+                                    }
+                                    if (document.getElementById('videoStatus')) {
+                                        document.getElementById('videoStatus').textContent = `${selectedQuality.name}已准备就绪`;
+                                    }
+                                });
+                        });
+                    }
+                    
+                    // 切换视频源
+                    if (switchSourceBtn && data.videos.sources.length > 1) {
+                        switchSourceBtn.addEventListener('click', function() {
+                            const nextSourceIndex = (currentSourceIndex + 1) % data.videos.sources.length;
+                            
+                            if (document.getElementById('videoStatus')) {
+                                document.getElementById('videoStatus').textContent = `正在切换到${data.videos.sources[nextSourceIndex].name}...`;
+                            }
+                            if (document.getElementById('videoProgress')) {
+                                document.getElementById('videoProgress').style.width = '0%';
+                            }
+                            
+                            loadVideoWithFallbacks(video, data.videos.sources, nextSourceIndex)
+                                .then(index => {
+                                    currentSourceIndex = index;
+                                    if (currentSourceName) {
+                                        currentSourceName.textContent = data.videos.sources[index].name;
+                                    }
+                                    if (document.getElementById('videoStatus')) {
+                                        document.getElementById('videoStatus').textContent = `已切换到${data.videos.sources[index].name}`;
+                                    }
+                                });
+                        });
+                    }
+                }
             }
             
             // 高亮显示位置点
@@ -584,5 +1046,6 @@
     </script>
 </body>
 </html>
+    
 
 
